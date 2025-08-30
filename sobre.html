@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0b0c10;color:#fff;scroll-behavior:smooth;overflow-x:hidden;}
+header{position:fixed;width:100%;top:0;z-index:100;background:rgba(11,12,16,0.85);backdrop-filter:blur(12px);transition:.3s;}
+header.scrolled{background:rgba(11,12,16,1);}
+header nav ul{display:flex;justify-content:flex-end;list-style:none;width:90%;margin:0 auto;padding:15px 0;}
+header nav ul li{margin-left:25px;}
+header nav ul li a{color:#fff;font-weight:600;position:relative;transition:.3s;}
+header nav ul li a.active::after{content:"";position:absolute;bottom:-5px;left:0;width:100%;height:3px;background:#ffbe0b;border-radius:3px;}
+header nav ul li a:hover{color:#ffbe0b;}
+
+section{padding:160px 10%;position:relative;z-index:2;}
+h1{font-size:3rem;margin-bottom:20px;}
+p{font-size:1.2rem;line-height:1.6;}
+footer{background:#0b0c10;color:white;text-align:center;padding:35px 0;position:relative;z-index:2;}
+canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="./index.html" id="link-cursos">Cursos</a></li>
+      <li><a href="./sobre.html" id="link-sobre">Sobre</a></li>
+      <li><a href="./contato.html" id="link-contato">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<canvas id="galaxy"></canvas>
+
+<section>
+<h1>Sobre Nós</h1>
+<p>Somos uma plataforma de cursos online moderna, com conteúdos práticos, interativos e feitos para você evoluir rápido. Aqui, você encontra cursos de programação, inglês e muito mais, tudo com um visual futurista e uma experiência imersiva.</p>
+<p>Nosso objetivo é deixar o aprendizado mais divertido e dinâmico, sem perder a qualidade de ensino. Explore nossos cursos e descubra uma nova forma de estudar!</p>
+</section>
+
+<footer>
+<p>© 2025 CursosOnline. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+// GALAXIA COM PARTICULAS
+const canvas = document.getElementById('galaxy');
+const ctx = canvas.getContext('2d');
+let w=canvas.width=window.innerWidth;
+let h=canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;});
+
+let stars=[];
+for(let i=0;i<150;i++){
+  stars.push({x:Math.random()*w,y:Math.random()*h,radius:Math.random()*2+0.5,speed:Math.random()*0.5+0.1});
+}
+
+function animateStars(){
+  ctx.clearRect(0,0,w,h);
+  stars.forEach(s=>{
+    s.y-=s.speed;
+    if(s.y<0)s.y=h;
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.radius,0,Math.PI*2);
+    ctx.fillStyle='white';
+    ctx.fill();
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+// SCROLL HEADER
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>50) document.querySelector('header').classList.add('scrolled');
+  else document.querySelector('header').classList.remove('scrolled');
+});
+
+// DESTACA PAGINA ATUAL
+const links = {
+  "cursos.html": document.getElementById('link-cursos'),
+  "sobre.html": document.getElementById('link-sobre'),
+  "contato.html": document.getElementById('link-contato')
+};
+
+const currentPage = window.location.pathname.split("/").pop();
+if(links[currentPage]) links[currentPage].classList.add('active');
+</script>
+
+</body>
+</html>
